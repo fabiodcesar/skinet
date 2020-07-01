@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
 using Core.Specifications;
+using API.Dtos;
 
 namespace API.Controllers
 {
@@ -24,12 +25,37 @@ namespace API.Controllers
             _productRepo = productRepo;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ProductToReturnDto> GetProduct(int id)
+        {
+            var spec = new ProductsWithTypesAndBrandsSpecification(id);
+            var product = await _productRepo.GetEntityWithSpec(spec);
+            return new ProductToReturnDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                PictureUrl = product.PictureUrl,
+                Price = product.Price,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+            };
+        }
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
         {
             var spec = new ProductsWithTypesAndBrandsSpecification();
             var products = await _productRepo.ListAsync(spec);
-            return Ok(await _productRepo.ListAllAsync());
+            return products.Select(product => new ProductToReturnDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                PictureUrl = product.PictureUrl,
+                Price = product.Price,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+            }).ToList();
         }
 
         [HttpGet("brands")]
@@ -43,13 +69,5 @@ namespace API.Controllers
         {
             return Ok(await _productTypeRepo.ListAllAsync());
         }
-
-        [HttpGet("{id}")]
-        public async Task<Product> GetProduct(int id)
-        {
-            var spec = new ProductsWithTypesAndBrandsSpecification(id);
-            return await _productRepo.GetEntityWithSpec(spec);
-        }
-
     }
 }
