@@ -12,6 +12,7 @@ using API.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using API.Errors;
+using Microsoft.OpenApi.Models;
 
 namespace API
 {
@@ -35,7 +36,7 @@ namespace API
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
 
-            
+            //Use this after AddControllers
             services.Configure<ApiBehaviorOptions>(options => 
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
@@ -53,6 +54,11 @@ namespace API
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
+
+            services.AddSwaggerGen(c=>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Skinet API", Version = "v1"});
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +80,11 @@ namespace API
             app.UseAuthorization();
 
             app.UseStaticFiles();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c=> {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyNet API v1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
