@@ -9,6 +9,8 @@ using Core.Interfaces;
 using Core.Specifications;
 using API.Dtos;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using API.Errors;
 
 namespace API.Controllers
 {   
@@ -28,6 +30,10 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+
+        //Tells to Swagger what this method also returns 404 errors of type ApiResponse. Otherwise Swagger will show what the only response would be code 200 (product found).
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ProductToReturnDto> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
