@@ -4,18 +4,20 @@ namespace Core.Specifications
 {
     public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
     {
-        public ProductsWithTypesAndBrandsSpecification(string sort, int? brandId, int? typeId)
+        public ProductsWithTypesAndBrandsSpecification(ProductSpecParams productParams)
         :base(x => 
-            (!brandId.HasValue || x.ProductBrandId == brandId) &&
-            (!typeId.HasValue || x.ProductTypeId == typeId)
+            (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
+            (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId)
         )
         {
             AddInclude(x => x.ProductType);
             AddInclude(x => x.ProductBrand);
+            AddOrderBy(p => p.Name);
+            ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1), productParams.PageSize);
 
-            if (!string.IsNullOrEmpty(sort))
+            if (!string.IsNullOrEmpty(productParams.Sort))
             {
-                switch (sort)
+                switch (productParams.Sort)
                 {                    
                     case "priceAsc":
                         AddOrderBy(p => p.Price);
@@ -27,7 +29,7 @@ namespace Core.Specifications
                         AddOrderBy(p => p.Name);
                         break;
                 }
-            }            
+            }
         }
 
         public ProductsWithTypesAndBrandsSpecification(int id)
