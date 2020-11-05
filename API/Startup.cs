@@ -37,7 +37,7 @@ namespace API
                     policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:5001");
+                    .WithOrigins("https://localhost:4200", "http://localhost");
                 });
             });
         }
