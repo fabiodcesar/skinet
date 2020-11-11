@@ -10,7 +10,8 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts() {
+   // tslint:disable-next-line: typedef
+   getProducts() {
     return this.http.get<IPagination>(this.baseUrl + 'products');
   }
 }
