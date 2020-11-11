@@ -12,6 +12,6 @@ export class ShopService {
 
    // tslint:disable-next-line: typedef
    getProducts() {
-    return this.http.get<IPagination>(this.baseUrl + 'products');
+    return this.http.get<IPagination>(this.baseUrl + 'products?PageSize=50');
   }
 }
