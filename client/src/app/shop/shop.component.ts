@@ -16,6 +16,12 @@ export class ShopComponent implements OnInit {
   productTypes: IProductType[];
   brandIdSelected = 0;
   typeIdSelected = 0;
+  sortSelected = 'name';
+  sortOptions = [
+    {name: 'Alphabetical', value: 'name'},
+    {name: 'Price: Low to High', value: 'priceAsc'},
+    {name: 'Price: High to Low', value: 'priceDesc'},
+  ];
 
   constructor(private shopService: ShopService) { }
 
@@ -27,7 +33,7 @@ export class ShopComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   getProducts() {
-    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected).subscribe(response => {
+    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected, this.sortSelected).subscribe(response => {
       this.products = response.data;
     }, error => {
       console.log(error);
@@ -65,6 +71,12 @@ export class ShopComponent implements OnInit {
    onProductTypeSelected(typeId: number)
    {
      this.typeIdSelected = typeId;
+     this.getProducts();
+   }
+
+   // tslint:disable-next-line: typedef
+   onSortSelected(sort: string) {
+     this.sortSelected = sort;
      this.getProducts();
    }
 }

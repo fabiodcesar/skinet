@@ -13,7 +13,7 @@ export class ShopService {
   constructor(private http: HttpClient) { }
 
    // tslint:disable-next-line: typedef
-   getProducts(brand?: number, typeId?: number) {
+   getProducts(brand?: number, typeId?: number, sort?: string) {
     let params = new HttpParams();
 
     if (brand) {
@@ -22,6 +22,11 @@ export class ShopService {
 
     if (typeId) {
       params = params.append('typeId', typeId.toString());
+    }
+
+    if (sort)
+    {
+      params = params.append('sort', sort);
     }
 
     // Projects the "response" object and return its body. This is necessary because the function returns first a observable
