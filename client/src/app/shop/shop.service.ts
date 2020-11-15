@@ -4,6 +4,7 @@ import { IPagination } from '../shared/models/pagination';
 import { IBrand } from '../shared/models/brands';
 import { IProductType } from '../shared/models/productType';
 import { map } from 'rxjs/operators';
+import { ShopParams } from '../shared/models/shopParams';
 
 @Injectable({providedIn: 'root'})
 
@@ -13,20 +14,20 @@ export class ShopService {
   constructor(private http: HttpClient) { }
 
    // tslint:disable-next-line: typedef
-   getProducts(brand?: number, typeId?: number, sort?: string) {
+   getProducts(shopParams: ShopParams) {
     let params = new HttpParams();
 
-    if (brand) {
-      params = params.append('brandId', brand.toString());
+    if (shopParams.brandId) {
+      params = params.append('brandId', shopParams.brandId.toString());
     }
 
-    if (typeId) {
-      params = params.append('typeId', typeId.toString());
+    if (shopParams.typeId) {
+      params = params.append('typeId', shopParams.typeId.toString());
     }
 
-    if (sort)
+    if (shopParams.sort)
     {
-      params = params.append('sort', sort);
+      params = params.append('sort', shopParams.sort);
     }
 
     // Projects the "response" object and return its body. This is necessary because the function returns first a observable
