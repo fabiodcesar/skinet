@@ -17,18 +17,17 @@ export class ShopService {
    getProducts(shopParams: ShopParams) {
     let params = new HttpParams();
 
-    if (shopParams.brandId) {
+    if (shopParams.brandId !== 0) {
       params = params.append('brandId', shopParams.brandId.toString());
     }
 
-    if (shopParams.typeId) {
+    if (shopParams.typeId !== 0) {
       params = params.append('typeId', shopParams.typeId.toString());
     }
 
-    if (shopParams.sort)
-    {
-      params = params.append('sort', shopParams.sort);
-    }
+    params = params.append('sort', shopParams.sort);
+    params = params.append('pageIndex', shopParams.pageNumber.toString());
+    params = params.append('pageSize', shopParams.pageSize.toString());
 
     // Projects the "response" object and return its body. This is necessary because the function returns first a observable
     // and we need the body of this observable

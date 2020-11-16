@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { IBrand } from '../shared/models/brands';
 import { IProduct } from '../shared/models/product';
@@ -16,6 +17,7 @@ export class ShopComponent implements OnInit {
   brands: IBrand[];
   productTypes: IProductType[];
   shopParams = new ShopParams();
+  totalCount: number;
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
     {name: 'Price: Low to High', value: 'priceAsc'},
@@ -35,6 +37,9 @@ export class ShopComponent implements OnInit {
     this.shopService.getProducts(this.shopParams)
     .subscribe(response => {
       this.products = response.data;
+      this.shopParams.pageNumber = response.pageIndex;
+      this.shopParams.pageSize = response.pageSize;
+      this.totalCount = response.count;
     }, error => {
       console.log(error);
     });
@@ -77,6 +82,12 @@ export class ShopComponent implements OnInit {
    // tslint:disable-next-line: typedef
    onSortSelected(sort: string) {
      this.shopParams.sort = sort;
+     this.getProducts();
+   }
+
+   // tslint:disable-next-line: typedef
+   onPageChanged(event: any) {
+     this.shopParams.pageNumber = event.page;
      this.getProducts();
    }
 }
