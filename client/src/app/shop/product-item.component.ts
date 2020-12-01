@@ -14,4 +14,7 @@ export class ProductItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  RouteProductDetails(productId: number): string {
+    return '/shop/' + productId;
+  }
 }
