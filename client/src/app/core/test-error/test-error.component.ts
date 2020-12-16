@@ -10,6 +10,9 @@ import { environment } from 'src/environments/environment';
 export class TestErrorComponent implements OnInit {
   baseUrl = environment.apiUrl;
 
+  // Armazena mensagens de erro de validação para serem exibidas em lista
+  validationErrors: any;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -58,6 +61,7 @@ export class TestErrorComponent implements OnInit {
     },
     error => {
       console.log(error);
+      this.validationErrors = error.errors;
     });
   }
 }
