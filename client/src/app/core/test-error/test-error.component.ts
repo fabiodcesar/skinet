@@ -19,6 +19,7 @@ export class TestErrorComponent implements OnInit {
   // tslint:disable-next-line: typedef
   get404Error()
   {
+    console.log(this.baseUrl + 'products/42');
     this.http.get(this.baseUrl + 'products/42').subscribe(response => {
       console.log(response);
     },
