@@ -5,7 +5,8 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 
 const routes: Routes = [
   {path: '', component: ShopComponent},
-  {path: ':id', component: ProductDetailsComponent}
+  // Em "data" nome do o alias do serviço de breadcrumb está sendo definido, que será acessado em "product-details.component"
+  {path: ':id', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'productDetails'}}}
 ];
 
 @NgModule({
