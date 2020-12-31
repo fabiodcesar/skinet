@@ -11,7 +11,10 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', {static: true}) searchTerm: ElementRef;
+
+  // Mudando "static" para falso corrigie problema JS pois a div que mostra o conteúdo usa "ngIf" que é dinâmica
+  @ViewChild('search', {static: false}) searchTerm: ElementRef;
+
   products: IProduct[];
   brands: IBrand[];
   productTypes: IProductType[];
