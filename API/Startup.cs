@@ -9,6 +9,7 @@ using API.Helpers;
 using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
+using Core.Interfaces;
 
 namespace API
 {
@@ -24,6 +25,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfiles));
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddControllers();
             services.AddDbContext<StoreContext>(x =>
             {
