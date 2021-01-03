@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IBasket } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
+import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,49 @@ export class BasketService {
   getCurrentBasketValue()
   {
     return this.basketSource.value;
+  }
+
+  // tslint:disable-next-line: typedef
+  addItemToBasket(item: IProduct, quantity = 1)
+  {
+    const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);
+    const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    basket.items = this.AddOrUpdateItem(basket.items, itemToAdd, quantity);
+    this.setBasket(basket);
+  }
+
+  private AddOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[]
+  {
+    const index = items.findIndex(i => i.id === itemToAdd.id);
+    if (index === -1)
+    {
+      itemToAdd.quantity = quantity;
+      items.push(itemToAdd);
+    }
+    else
+    {
+      items[index].quantity += quantity;
+    }
+    return items;
+  }
+
+  private createBasket(): IBasket
+  {
+    const basket = new Basket();
+    localStorage.setItem('basket_id', basket.id);
+    return basket;
+  }
+
+  private mapProductItemToBasketItem(item: IProduct, quantity: number): IBasketItem
+  {
+    return {
+      id: item.id,
+      productName: item.name,
+      price: item.price,
+      pictureUrl: item.pictureUrl,
+      quantity,
+      brand: item.productBrand,
+      type: item.productType
+    };
   }
 }
