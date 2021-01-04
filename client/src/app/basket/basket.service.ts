@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
 import { IProduct } from '../shared/models/product';
 
@@ -16,6 +16,9 @@ export class BasketService {
   private basketSource = new BehaviorSubject<IBasket>(null);
   basket$ = this.basketSource.asObservable();
 
+  private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
+  basketTotal$ = this.basketTotalSource.asObservable();
+
   constructor(private http: HttpClient) { }
 
   // tslint:disable-next-line: typedef
@@ -27,6 +30,7 @@ export class BasketService {
       map((basket: IBasket) => {
         // Atualiza objeto "behaviour"
         this.basketSource.next(basket);
+        this.calculateTotals();
       })
     );
   }
@@ -36,7 +40,7 @@ export class BasketService {
     return this.http.post(this.baseUrl + 'basket', basket).subscribe((response: IBasket) => {
       // Atualiza objeto "behaviour"
       this.basketSource.next(response);
-      console.log(response);
+      this.calculateTotals();
     }, error => {
       console.log(error);
     });
@@ -55,7 +59,7 @@ export class BasketService {
 
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
 
-    // O operador "coalescing" faz o equivalente a:
+    // OBSERVAÇÃO: O operador "coalescing" faz o equivalente a:
     // let basket = this.getCurrentBasketValue();
     // if (basket === null)
     // {
@@ -64,6 +68,19 @@ export class BasketService {
 
     basket.items = this.AddOrUpdateItem(basket.items, itemToAdd, quantity);
     this.setBasket(basket);
+  }
+
+  // tslint:disable-next-line: typedef
+  private calculateTotals()
+  {
+    const basket = this.getCurrentBasketValue();
+    const shipping = 0;
+    // Parâmetro "a" representa o número que está sendo retornado
+    // Parâmetro "b" representa o item
+    // Valor inicial definido como "0" no último parâmetro
+    const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
+    const total = subtotal + shipping;
+    this.basketTotalSource.next({shipping, total, subtotal});
   }
 
   private AddOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[]
