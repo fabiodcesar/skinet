@@ -21,7 +21,7 @@ export class BasketService {
   // tslint:disable-next-line: typedef
   getBasket(id: string)
   {
-    this.http.get<IBasket>(this.baseUrl + '/basket?id=' + id)
+    return this.http.get<IBasket>(this.baseUrl + 'basket?id=' + id)
     .pipe(
       // Mapeia objeto retornado em IBasket
       map((basket: IBasket) => {
