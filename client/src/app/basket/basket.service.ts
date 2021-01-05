@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
 import { IProduct } from '../shared/models/product';
+import { execFile } from 'child_process';
+import { exception } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -47,46 +49,65 @@ export class BasketService {
   }
 
   // tslint:disable-next-line: typedef
+  deleteBasket(basket: IBasket)
+  {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe((response: IBasket) => {
+      this.basketSource.next(null);
+      this.basketTotalSource.next(null);
+      localStorage.removeItem('basket_id');
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  // tslint:disable-next-line: typedef
   getCurrentBasketValue()
   {
     return this.basketSource.value;
   }
 
   // tslint:disable-next-line: typedef
-  public incrementItemToBasket(id: number)
-  {
-    this.incrementDecrementItemToBasket(id, 1);
-  }
-
-  // tslint:disable-next-line: typedef
-  public decrementItemToBasket(id: number)
-  {
-    this.incrementDecrementItemToBasket(id, -1);
-  }
-
-  // tslint:disable-next-line: typedef
-  public deleteItemFromBasket(id: number)
+  public incrementItemQuantity(item: IBasketItem)
   {
     const basket = this.getCurrentBasketValue();
-    const index = basket.items.findIndex(i => i.id === id);
-    basket.items.splice(index, 1);
+    const index = basket.items.findIndex(i => i.id === item.id);
+    basket.items[index].quantity++;
     this.setBasket(basket);
   }
 
   // tslint:disable-next-line: typedef
-  private incrementDecrementItemToBasket(id: number, increment: number)
+  public decrementItemQuantity(item: IBasketItem)
   {
     const basket = this.getCurrentBasketValue();
-    const index = basket.items.findIndex(i => i.id === id);
-    if ((increment < 0) && (basket.items[index].quantity === 1))
+    const index = basket.items.findIndex(i => i.id === item.id);
+    if (basket.items[index].quantity > 1)
     {
-      basket.items.splice(index, 1);
+      basket.items[index].quantity--;
+      this.setBasket(basket);
     }
     else
     {
-      basket.items[index].quantity = basket.items[index].quantity + increment;
+      this.removeItemFromBasket(item);
     }
-    this.setBasket(basket);
+  }
+
+  // tslint:disable-next-line: typedef
+  public removeItemFromBasket(item: IBasketItem)
+  {
+    const basket = this.getCurrentBasketValue();
+
+    if (basket.items.some(x => x.id === item.id))
+    {
+      basket.items = basket.items.filter(x => x.id !== item.id);
+      if (basket.items.length > 0)
+      {
+        this.setBasket(basket);
+      }
+      else
+      {
+        this.deleteBasket(basket);
+      }
+    }
   }
 
   // tslint:disable-next-line: typedef

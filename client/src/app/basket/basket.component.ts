@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { IBasket } from '../shared/models/basket';
+import { IBasket, IBasketItem } from '../shared/models/basket';
 import { BasketService } from './basket.service';
 
 @Component({
@@ -19,20 +19,20 @@ export class BasketComponent implements OnInit {
     }
 
     // tslint:disable-next-line: typedef
-    public incrementItemToBasket(id: number)
+    public incrementItemQuantity(item: IBasketItem)
     {
-      this.basketService.incrementItemToBasket(id);
+      this.basketService.incrementItemQuantity(item);
     }
 
     // tslint:disable-next-line: typedef
-    public decrementItemToBasket(id: number)
+    public decrementItemQuantity(item: IBasketItem)
     {
-      this.basketService.decrementItemToBasket(id);
+      this.basketService.decrementItemQuantity(item);
     }
 
     // tslint:disable-next-line: typedef
-    public deleteItemFromBasket(id: number)
+    public removeItemFromBasket(item: IBasketItem)
     {
-      this.basketService.deleteItemFromBasket(id);
+      this.basketService.removeItemFromBasket(item);
     }
 }
