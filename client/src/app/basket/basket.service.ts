@@ -53,6 +53,43 @@ export class BasketService {
   }
 
   // tslint:disable-next-line: typedef
+  public incrementItemToBasket(id: number)
+  {
+    this.incrementDecrementItemToBasket(id, 1);
+  }
+
+  // tslint:disable-next-line: typedef
+  public decrementItemToBasket(id: number)
+  {
+    this.incrementDecrementItemToBasket(id, -1);
+  }
+
+  // tslint:disable-next-line: typedef
+  public deleteItemFromBasket(id: number)
+  {
+    const basket = this.getCurrentBasketValue();
+    const index = basket.items.findIndex(i => i.id === id);
+    basket.items.splice(index, 1);
+    this.setBasket(basket);
+  }
+
+  // tslint:disable-next-line: typedef
+  private incrementDecrementItemToBasket(id: number, increment: number)
+  {
+    const basket = this.getCurrentBasketValue();
+    const index = basket.items.findIndex(i => i.id === id);
+    if ((increment < 0) && (basket.items[index].quantity === 1))
+    {
+      basket.items.splice(index, 1);
+    }
+    else
+    {
+      basket.items[index].quantity = basket.items[index].quantity + increment;
+    }
+    this.setBasket(basket);
+  }
+
+  // tslint:disable-next-line: typedef
   addItemToBasket(item: IProduct, quantity = 1)
   {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);

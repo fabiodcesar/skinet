@@ -58,9 +58,9 @@
                     <td class="alig-middle"><strong>{{item.price | currency}}</strong></td>
                     <td class="align-middle">
                       <div class="d-flex align-items-center">
-                        <i class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
+                        <i (click)="decrementItemToBasket(item.id)" class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
                         <span class="font-weight-bold">{{item.quantity}}</span>
-                        <i class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
+                        <i (click)="incrementItemToBasket(item.id)" class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
                       </div>
                     </td>
                     <td class="align-middle">
@@ -68,7 +68,7 @@
                     </td>
                     <td class="align-middle text-center">
                       <a class="text-danger">
-                        <i class="fa fa-trash" style="font-size: 2em;"></i>
+                        <i (click)="deleteItemFromBasket(item.id)" class="fa fa-trash" style="font-size: 2em;"></i>
                       </a>
                     </td>
                   </tr>
