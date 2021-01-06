@@ -5,8 +5,6 @@ import { environment } from 'src/environments/environment';
 import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
 import { IProduct } from '../shared/models/product';
-import { execFile } from 'child_process';
-import { exception } from 'console';
 
 @Injectable({
   providedIn: 'root'
