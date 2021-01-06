@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BasketService } from 'src/app/basket/basket.service';
 import { IProduct } from 'src/app/shared/models/product';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { ShopService } from '../shop.service';
@@ -12,8 +13,12 @@ import { ShopService } from '../shop.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product: IProduct;
+  quantity = 1;
 
-  constructor(private shopService: ShopService, private activateRoute: ActivatedRoute, private breadcrumbService: BreadcrumbService) {
+  constructor(private shopService: ShopService,
+              private basketService: BasketService,
+              private activateRoute: ActivatedRoute,
+              private breadcrumbService: BreadcrumbService) {
     // Evita que código do produto seja exibido no breadcrumb durante carregamento da página
     this.breadcrumbService.set('@productDetails', ' ');
   }
@@ -34,5 +39,29 @@ export class ProductDetailsComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  // tslint:disable-next-line: typedef
+  incrementQuantity()
+  {
+    if (this.quantity < 10)
+    {
+    this.quantity++;
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  decrementQuantity()
+  {
+    if (this.quantity > 1)
+    {
+      this.quantity--;
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  addItemToBasket()
+  {
+    this.basketService.addItemToBasket(this.product, this.quantity);
   }
 }
