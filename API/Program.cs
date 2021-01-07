@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,9 +24,22 @@ namespace API
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
+                    // Cria contexto "Store" e inclui dados seed
                     var context = services.GetRequiredService<StoreContext>();
                     await context.Database.MigrateAsync();
                     await StoreContextSeed.SeedAsync(context, loggerFactory);
+
+                    //Recupera referênca "UserManager" para "AppUser"
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    
+                    //Recupera referência para AppIdentityDbContext
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+
+                    //Tentar criar banco de dados
+                    await identityContext.Database.MigrateAsync();
+
+                    //Inclui dados seed no contexto
+                    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
                 }
                 catch (Exception ex)
                 {

@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
-    public class AppIdentityDbContextSeed
+    public static class AppIdentityDbContextSeed
     {
         //Ao invés de lidar diretamente com o contexto para interagir com o banco, aqui será usado o "UserManager"
-        public static async Task SendUsersAsync(UserManager<AppUser> userManager)
+        public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
         {
             if (!userManager.Users.Any())
             {
