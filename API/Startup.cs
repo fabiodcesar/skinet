@@ -10,6 +10,7 @@ using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
 using Core.Interfaces;
+using Infrastructure.Identity;
 
 namespace API
 {
@@ -29,6 +30,10 @@ namespace API
             services.AddDbContext<StoreContext>(x =>
             {
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(x => {
+                x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
 
             //Configura Redis
