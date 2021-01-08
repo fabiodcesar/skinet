@@ -1,0 +1,11 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "git.autofetch": true,
+    "window.zoomLevel": 0,
+    "breadcrumbs.enabled": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "terminal.integrated.rendererType": "dom",
+    "[csharp]": {},
+    "omnisharp.enableEditorConfigSupport": true
+}
