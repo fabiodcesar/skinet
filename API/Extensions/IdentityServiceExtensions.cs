@@ -38,7 +38,8 @@ namespace API.Extensions
                     //Informa qual é o "issuer" válido
                     ValidIssuer = config["Token:Issuer"],
                     //Informa se o issuer informado deve ser validado
-                    ValidateIssuer = true
+                    ValidateIssuer = true,
+                    ValidateAudience = false
                 };
             });
 
