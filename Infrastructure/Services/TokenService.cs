@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services
 {
+    //Identity - Passo 19: Criando classe
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;

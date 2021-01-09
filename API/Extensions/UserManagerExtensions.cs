@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
+    //Identity - Passo 24: Criando classe de extensão para UserManager para permitir uso do "include" e localizar endereço ao carregar usuário
     public static class UserManagerExtensions
     {
         public static async Task<AppUser> FindByUserByClaimsPrincipleWithAddressAsync(this UserManager<AppUser> input, ClaimsPrincipal user)

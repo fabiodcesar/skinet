@@ -24,21 +24,21 @@ namespace API
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    // Cria contexto "Store" e inclui dados seed
+                    //Cria contexto "Store" e inclui dados seed
                     var context = services.GetRequiredService<StoreContext>();
                     await context.Database.MigrateAsync();
                     await StoreContextSeed.SeedAsync(context, loggerFactory);
 
-                    //Recupera referênca "UserManager" para "AppUser"
+                    //Identity - Passo 9: Recupera referênca "UserManager" para "AppUser"
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     
-                    //Recupera referência para AppIdentityDbContext
+                    //Identity - Passo 10: Recupera referência para AppIdentityDbContext
                     var identityContext = services.GetRequiredService<AppIdentityDbContext>();
 
-                    //Tentar criar banco de dados
+                    //Identity - Passo 11: Tentar criar banco de dados
                     await identityContext.Database.MigrateAsync();
 
-                    //Inclui dados seed no contexto
+                    //Identity - Passo 12: Inclui dados seed no contexto
                     await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
                 }
                 catch (Exception ex)

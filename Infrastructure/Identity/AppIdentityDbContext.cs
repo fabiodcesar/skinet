@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity
 {
+    //Identity - Passo 4: Criando classe de contexto específica para Identity
     public class AppIdentityDbContext : IdentityDbContext<AppUser>
     {
         //Tipo "AppIdentityDbContext" está sendo especificando porque há mais de 1 contexto

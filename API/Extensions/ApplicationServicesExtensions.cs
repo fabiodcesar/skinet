@@ -12,7 +12,9 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            //Identity - Passo 22: Configurando serviço de token
             services.AddScoped<ITokenService, TokenService>();
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));            
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();

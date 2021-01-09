@@ -13,12 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    //Identity - Passo 13: Criando controller
     public class AccountController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        //Identity - Passo 26: Injetando mapper
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
         {
             _mapper = mapper;
@@ -63,6 +65,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
+        //Identity - Passo 15: Implementando função para login
         public async Task<ActionResult<UserDto>> Login(LoginDto login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
@@ -83,6 +86,7 @@ namespace API.Controllers
             };
         }
 
+        //Identity - Passo 27: Implementando action para atulizar usuário
         //OBS: O "PUT" é usado quando se tenta atualizar algum recurso
         [Authorize]
         [HttpPut("address")]
@@ -96,6 +100,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
+        //Identity - Passo 17: Implementando função
         public async Task<ActionResult<UserDto>> Register(RegisterDto register)
         {
             var user = new AppUser()

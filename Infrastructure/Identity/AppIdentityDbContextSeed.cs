@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity
 {
+      //Identity - Passo 6: Implementando classe para inclusão de dados seed
     public static class AppIdentityDbContextSeed
     {
         //Ao invés de lidar diretamente com o contexto para interagir com o banco, aqui será usado o "UserManager"

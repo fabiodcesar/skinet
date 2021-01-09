@@ -1,5 +1,6 @@
 namespace API.Dtos
 {
+    //Identity - Passo 16: Criando classe
     public class UserDto
     {
         public string Email { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
 {
-    //Usado para manter a classe Startup mais limpa
+    //Identity - Passo 7: Implementando classe de extensão para manter a classe Startup mais limpa
     public static class IdentityServiceExtensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
@@ -26,6 +26,8 @@ namespace API.Extensions
             // Permite usar SignInManager
             services.AddAuthentication();
 
+            //Identity - Passo 20: Configurando recebimento do token
+            //Incluindo chaves em "appsettings.Development.json"
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

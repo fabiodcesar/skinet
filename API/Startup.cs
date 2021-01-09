@@ -32,6 +32,8 @@ namespace API
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
 
+            //Identity - Passo 5: Adicionando contexto do Identity como serviço adicional e criando chave "IdentityConnection" em "appSettingsDevelopment.json"
+            //Após este passo executar migration
             services.AddDbContext<AppIdentityDbContext>(x => {
                 x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
@@ -44,6 +46,7 @@ namespace API
             });
 
             services.AddApplicationServices();
+             //Identity - Passo 8: configurando serviços do identity
             services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
@@ -78,7 +81,8 @@ namespace API
 
             app.UseCors("CorsPolicy");
 
-            //UseAuthentication deve estar antes de UseAuthorization
+            //Identity - Passo 21: configurando sistema para usar autenticação
+            //Deve estar antes de UseAuthorization
             app.UseAuthentication();
 
             app.UseAuthorization();

@@ -14,6 +14,7 @@ namespace API.Controllers
 
         }
 
+        //Identity - Passo 23: Configurando novo método para teste
         [HttpGet("testauth")]
         [Authorize]
         public ActionResult<string> GetSecretText()
