@@ -16,6 +16,9 @@ namespace API.Helpers
 
             //Identity - Passo 26: Mapping Addres to dto and vice-versa
             CreateMap<Address, AddressDto>().ReverseMap();
+
+            CreateMap<CustomerBasketDto, CustomerBasket>();
+            CreateMap<BasketItemDto, BasketItem>();
         }
     }
 }
