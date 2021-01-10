@@ -93,7 +93,7 @@ namespace API.Controllers
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
         {
             var user = await _userManager.FindByUserByClaimsPrincipleWithAddressAsync(HttpContext.User);
-            user.Address  = _mapper.Map<AddressDto, Address>(address);
+            user.Address = _mapper.Map<AddressDto, Address>(address);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded) return Ok(_mapper.Map<Address, AddressDto>(user.Address));
             return BadRequest("Problem updating the user");
@@ -103,9 +103,14 @@ namespace API.Controllers
         //Identity - Passo 17: Implementando função
         public async Task<ActionResult<UserDto>> Register(RegisterDto register)
         {
+            if (CheckEmailExistsAsync(register.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse
+                {
+                    Errors = new[] { "Email addres is in use" }                    
+                });
+            }
 
-            //Section 16 - Passo 3: Implementando verificação de e-mail existente
-            
             var user = new AppUser()
             {
                 DisplayName = register.DisplayName,
