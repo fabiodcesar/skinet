@@ -103,6 +103,9 @@ namespace API.Controllers
         //Identity - Passo 17: Implementando função
         public async Task<ActionResult<UserDto>> Register(RegisterDto register)
         {
+
+            //Section 16 - Passo 3: Implementando verificação de e-mail existente
+            
             var user = new AppUser()
             {
                 DisplayName = register.DisplayName,
