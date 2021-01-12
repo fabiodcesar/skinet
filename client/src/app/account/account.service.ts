@@ -26,7 +26,7 @@ export class AccountService {
 
     return this.http.get(this.baseUrl + 'account', {headers}).pipe(
       // Mapeia objeto recebido em observable do usuário
-      map((user: IUser) => {        
+      map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           // Atualiza observable do usuário

@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   loadCurrentUser() {
     const token = localStorage.getItem('token');
     if (token) {
+      // Mantém usuário logado após "refresh"
       this.accountService.loadCurrentUser(token).subscribe(() => {
         console.log('loaded user');
       }, error => {
