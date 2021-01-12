@@ -13,7 +13,8 @@ export class LoadingInterceptor implements HttpInterceptor
     {
         this.busyService.busy();
         return next.handle(req).pipe(
-            delay(500),
+            // Reativar delay para conferir como página se comporta com demora no carregamento
+            // delay(500),
             finalize(() => {
                 this.busyService.idle();
             }
