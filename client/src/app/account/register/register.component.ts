@@ -9,6 +9,7 @@ import { AccountService } from '../account.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder, private accountService: AccountService, private router: Router) { }
@@ -21,7 +22,7 @@ export class RegisterComponent implements OnInit {
   createRegisterForm() {
     this.registerForm = this.fb.group({
       displayName: [null, [Validators.required]],
-      email: [null, [Validators.required, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]]],
+      email: [null, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       password: [null, [Validators.required]]
     });
   }
@@ -29,6 +30,10 @@ export class RegisterComponent implements OnInit {
   // tslint:disable-next-line: typedef
   onSubmit()
   {
-    console.log('submit');
+    this.accountService.register(this.registerForm.value).subscribe(response => {
+      this.router.navigateByUrl('/shop');
+    }, error => {
+      console.log(error);
+    });
   }
 }
