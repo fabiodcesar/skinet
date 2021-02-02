@@ -70,6 +70,6 @@ export class AccountService {
 
   // tslint:disable-next-line: typedef
   checkEmailExists(email: string){
-    return this.http.get(this.baseUrl + '/account/emailExists?email=' + email);
+    return this.http.get(this.baseUrl + 'account/emailExists?email=' + email);
   }
 }
