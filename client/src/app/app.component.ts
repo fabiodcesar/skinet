@@ -21,14 +21,12 @@ export class AppComponent implements OnInit {
   // tslint:disable-next-line: typedef
   loadCurrentUser() {
     const token = localStorage.getItem('token');
-    if (token) {
-      // Mantém usuário logado após "refresh"
-      this.accountService.loadCurrentUser(token).subscribe(() => {
-        console.log('loaded user');
-      }, error => {
-        console.log(error);
-      });
-    }
+    // Mantém usuário logado após "refresh"
+    this.accountService.loadCurrentUser(token).subscribe(() => {
+      console.log('loaded user');
+    }, error => {
+      console.log(error);
+    });
   }
 
   // tslint:disable-next-line: typedef
