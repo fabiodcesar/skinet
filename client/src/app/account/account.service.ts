@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../shared/models/user';
@@ -11,16 +11,28 @@ import { IUser } from '../shared/models/user';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<IUser>(null);
+
+  // BehaviorSubject emite valor inicial null. Desativado na lição 204
+  // private currentUserSource = new BehaviorSubject<IUser>(null);
+  // Segura 1 objeto de usuário (especificado no parâmetro). Authguard irá esperar até currentUserSource ter valor
+  private currentUserSource = new ReplaySubject<IUser>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   // tslint:disable-next-line: typedef
-  getCurrentUserValue() {
-    return this.currentUserSource.value;
-  }
+  // usado apenas com BehaviorSubject<IUser>(null)
+  // getCurrentUserValue() {
+  //   return this.currentUserSource.value;
+  // }
 
   // tslint:disable-next-line: typedef
   loadCurrentUser(token: string) {
+    if (token === null)
+    {
+      this.currentUserSource.next(null);
+      // Retorna observable de nulo (of é um observable)
+      return of(null);
+    }
+
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 

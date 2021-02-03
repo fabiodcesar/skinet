@@ -25,10 +25,15 @@ export class AuthGuard implements CanActivate {
     // nós não precisamos nos inscrever (subscrive) porque o router já se inscreve por nós e também se desinscreve também.
     return this.accountService.currentUser$.pipe(
       map(auth => {
+
         if (auth) {
           return true;
         }
+
+        // Direciona para login caso não seja ativado
         this.router.navigate(['account/login'], {queryParams: {returnUrl: state.url}});
+
+        // Parece que o valor "false" é retornado por padrão por aqui. Funcionaria também incluindo "return false"
       })
     );
   }
