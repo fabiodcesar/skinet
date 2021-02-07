@@ -14,23 +14,25 @@ namespace API.Extensions
         {
             //Identity - Passo 22: Configurando serviço de token
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderService>();
 
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));            
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
-            
-             //Use this after AddControllers
-            services.Configure<ApiBehaviorOptions>(options => 
+
+            //Use this after AddControllers
+            services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
                     //Flattens the error messages into a projected array of strings
                     var errors = actionContext.ModelState
-                    .Where(e=> e.Value.Errors.Count > 0)
-                    .SelectMany(x =>x.Value.Errors.Select(x=>x.ErrorMessage));
+                    .Where(e => e.Value.Errors.Count > 0)
+                    .SelectMany(x => x.Value.Errors.Select(x => x.ErrorMessage));
 
                     //Creates a response object with the error responses
-                    var errorResponse = new ApiValidationErrorResponse() {
+                    var errorResponse = new ApiValidationErrorResponse()
+                    {
                         Errors = errors
                     };
 
