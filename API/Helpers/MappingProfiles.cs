@@ -19,6 +19,9 @@ namespace API.Helpers
 
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
+
+            // Namespace do agregado precisa ser explícito
+            CreateMap<AddressDto, Core.Entities.OrderAggregate.Address>();
         }
     }
 }
