@@ -1,7 +1,7 @@
 using AutoMapper;
 using Core.Entities;
 using API.Dtos;
-using Core.Entities.Identity;
+using Core.Entities.OrderAggregate;
 
 namespace API.Helpers
 {
@@ -15,13 +15,16 @@ namespace API.Helpers
             .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductUrlResolver>());
 
             //Identity - Passo 26: Mapping Addres to dto and vice-versa
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Core.Entities.OrderAggregate.Address, AddressDto>().ReverseMap();
 
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
 
             // Namespace do agregado precisa ser explícito
             CreateMap<AddressDto, Core.Entities.OrderAggregate.Address>();
+
+            CreateMap<Order, OrderToReturnDto>();
+            CreateMap<OrderItem, OrderItemDto>();
         }
     }
 }
