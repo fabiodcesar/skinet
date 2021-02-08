@@ -2,5 +2,8 @@ obj
 bin
 *.db
 appsettings.json
-.vs
-.easyRedis.redis
+*.rdb
+settings.json
+publish
+wwwroot
+.idea
